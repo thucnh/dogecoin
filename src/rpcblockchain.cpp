@@ -329,11 +329,11 @@ Value getblock(const Array& params, bool fHelp)
     //    fVerbose = params[1].get_bool();
     
     int verbosity = 1;
-    if (request.params.size() > 1) {
-        if (request.params[1].isNum()) {
-            verbosity = request.params[1].get_int();
+    if (params.size() > 1) {
+        if (params[1].isNum()) {
+            verbosity = params[1].get_int();
         } else {
-            verbosity = request.params[1].get_bool() ? 1 : 0;
+            verbosity = params[1].get_bool() ? 1 : 0;
         }
     }
 
