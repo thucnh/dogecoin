@@ -330,11 +330,7 @@ Value getblock(const Array& params, bool fHelp)
     
     int verbosity = 1;
     if (params.size() > 1) {
-        if (params[1].is_num()) {
-            verbosity = params[1].get_int();
-        } else {
-            verbosity = params[1].get_bool() ? 1 : 0;
-        }
+        verbosity = params[1].get_int();
     }
 
     if (mapBlockIndex.count(hash) == 0)
