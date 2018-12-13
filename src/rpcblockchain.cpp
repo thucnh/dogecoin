@@ -324,9 +324,18 @@ Value getblock(const Array& params, bool fHelp)
     std::string strHash = params[0].get_str();
     uint256 hash(uint256S(strHash));
 
-    bool fVerbose = true;
-    if (params.size() > 1)
-        fVerbose = params[1].get_bool();
+    //bool fVerbose = true;
+    //if (params.size() > 1)
+    //    fVerbose = params[1].get_bool();
+    
+    int verbosity = 1;
+    if (request.params.size() > 1) {
+        if (request.params[1].isNum()) {
+            verbosity = request.params[1].get_int();
+        } else {
+            verbosity = request.params[1].get_bool() ? 1 : 0;
+        }
+    }
 
     if (mapBlockIndex.count(hash) == 0)
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Block not found");
@@ -340,7 +349,8 @@ Value getblock(const Array& params, bool fHelp)
     if(!ReadBlockFromDisk(block, pblockindex))
         throw JSONRPCError(RPC_INTERNAL_ERROR, "Can't read block from disk");
 
-    if (!fVerbose)
+    //if (!fVerbose)
+    if (verbosity <= 0) {
     {
         CDataStream ssBlock(SER_NETWORK, PROTOCOL_VERSION);
         ssBlock << block;
@@ -348,7 +358,7 @@ Value getblock(const Array& params, bool fHelp)
         return strHex;
     }
 
-    return blockToJSON(block, pblockindex);
+    return blockToJSON(block, pblockindex, verbosity >= 2);
 }
 
 Value gettxoutsetinfo(const Array& params, bool fHelp)
