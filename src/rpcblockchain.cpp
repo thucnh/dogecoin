@@ -346,7 +346,7 @@ Value getblock(const Array& params, bool fHelp)
         throw JSONRPCError(RPC_INTERNAL_ERROR, "Can't read block from disk");
 
     //if (!fVerbose)
-    if (verbosity <= 0) {
+    if (verbosity <= 0)
     {
         CDataStream ssBlock(SER_NETWORK, PROTOCOL_VERSION);
         ssBlock << block;
